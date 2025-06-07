@@ -71,7 +71,7 @@ class SPOTTF(nn.Module):
           return preds
         with torch.no_grad():
           solution, objective = self.optimize(preds.detach().cpu().numpy())
-        return preds, torch.tensor(np.array(solution),dtype=torch.float32)
+        return preds, torch.tensor(np.array(solution),dtype=torch.float32), objective
 
     def update(self, x_cat, x_num, y, constrs_dict):
         if not self.setup_flag:

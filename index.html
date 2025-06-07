@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yao's Presentation on SPO</title>
+    <script type="text/x-mathjax-config">
+		MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+	</script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Times New Roman', serif;
+            background-color: #f9f9f9;
+        }
+        .slide {
+            width: 100%;
+            height: 100vh;
+            display: none;
+            padding: 50px;
+            box-sizing: border-box;
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .slide.active {
+            display: block;
+        }
+        .slide-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        h1 {
+            color: #003366;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 32px;
+            border-bottom: 2px solid #003366;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #005599;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .figure-placeholder {
+            width: 100%;
+            height: 300px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            border: 2px dashed #999;
+            font-style: italic;
+            color: #666;
+        }
+        .pdf-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #003366;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: Arial, sans-serif;
+        }
+        .pdf-link:hover {
+            background-color: #004488;
+        }
+        .figure-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #003366;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: Arial, sans-serif;
+        }
+        .figure-link:hover {
+            background-color: #004488;
+        }
+        .navigation {
+            position: fixed;
+            bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .nav-btn {
+            padding: 10px 20px;
+            background-color: #003366;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+        }
+        .nav-btn:hover {
+            background-color: #004488;
+        }
+        .slide-number {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 16px;
+            color: #666;
+            font-family: Arial, sans-serif;
+        }
+        ul {
+            margin-left: 20px;
+            line-height: 1.6;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        p {
+            line-height: 1.6;
+            text-align: justify;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+    </style>
+</head>
+<body>
+    <!-- Slide 1: Personal Introduction -->
+    <div class="slide active" id="slide1">
+        <div class="header">Yao's Presentation on SPO</div>
+        <div class="slide-content">
+            <h1>Background and Definition - SPO (1/2)</h1>
+        <h2>Background</h2>
+            <li>Prediction-Optimization (PO) is a new paradigm in decision-making. We predict $\hat c$ using features $X$ and then optimize the decision $\omega$ based on $\hat c$.</li>
+            <li>Prediction errors do not account for the optimization process.</li>
+            <li>We hope to directly minimize the decision error.</li>
+            \[\hat c = f_\theta(X)\]
+        <h2>Definition of SPO (Smart "Predict, then Optimize") Framework</h2>
+            <li>Training prediction models that utilize the nominal optimization problem, i.e., its constraints and objective.</li>       
+            <li>In the training process, minimize the SPO loss, the true cost of the decision induced by the predicted parameter $\hat c$ minus the optimal cost under the true parameter $c$.</li>     
+            \[ 
+            \begin{aligned}
+                & \min_{\omega} \quad \hat c^\top \omega \\
+                & \text{s.t.} \quad \omega \in S \\
+            \end{aligned}
+            \]
+        </div>
+        <div class="slide-number">1/8</div>
+    </div>
+
+    <!-- Slide 2: Learned Courses and Skills (1) -->
+    <div class="slide" id="slide2" style="height: 150vh; ">
+        <div class="header">Yao's Presentation on SPO</div>
+        <div class="slide-content">
+            <h1>Background and Definition - SPO (2/2)</h1>
+        <h2>Definition of SPO Loss
+            <button onclick="toggleFigure('difference')" class="details-button">View Image</button>
+                        <div id="difference" class="details-content" style="display: none;">
+                            <img src="pred_decis_loss_diff.png" alt="difference between prediction and decision error" style="max-width:100%; height:auto;">
+                        </div>
+                        <script>
+                            function toggleFigure(id) {
+                                var content = document.getElementById(id);
+                                if (content.style.display === "none") {
+                                    content.style.display = "block";
+                                } else {
+                                    content.style.display = "none";
+                                }
+                            }
+                        </script>
+        </h2>
+        <p>Given vectors $\hat c$ as the prediction cost and $c$ as the true cost, the SPO loss is defined as:
+        \[
+        \mathcal{l}^{\omega^*}_{SPO}(\hat c, c) = c^\top \omega^*(\hat c) - z^*(c),
+        \]
+        where $\omega^*(\hat c)$ is the solution induced by the predicted cost and $z^*(c)$ is the true optimal objective.
+        </p>
+        <p>
+        The prediction model is trained using empirical risk minimization:
+        \[
+        \min_{f\in\mathcal{H}}\frac{1}{n}\Sigma_{i=1}^n\mathcal{l}_{SPO}(f(x_i),c_i).
+        \]
+        </p>
+        <h2>Shortcomings of SPO Loss</h2>
+        <li>Depends on $\omega^*(\cdot)$, and thus may not be continuous.</li>
+        <li>Solving the minimization problem may be NP-hard.</li>
+        <li>Computationally intractable, especially in large-scale problems.</li>
+    </div>
+        <div class="slide-number">2/8</div>
+    </div>
+
+    <!-- Slide 3: Learned Courses and Skills (2) -->
+    <div class="slide" id="slide3">
+        <div class="header">Yao's Presentation on SPO</div>
+        <div class="slide-content">
+            <h1>Motivation for Deriving SPO+ Loss</h1>
+        <h2>Definition of SPO+ Loss</h2>
+        <p>Given vectors $\hat c$ as the prediction cost and $c$ as the true cost, the SPO+ loss is defined as:
+            \[
+            \mathcal{l}_{SPO+}(\hat c,c)=\max_{\omega\in S}\{c^\top\omega-2\hat c^\top\omega\} + 2\hat c^\top\omega^*(c) - z^*(c),
+            \]
+            where $\omega^*(c)$ is the true optimal solution and $z^*(c)$ is the true optimal ojective. Let $\xi_S(c)=\max_{\omega\in S}\{c^\top\omega\}$ be the support function, then
+            \[
+            \mathcal{l}_{SPO+}(\hat c,c)=\xi_S(c-2\hat c) + 2\hat c^\top\omega^*(c) - z^*(c).
+            \]
+        </p>
+        <li>A tractable surrogate loss functions that reasonably approximates SPO loss</li>
+        <li>Derived from duality (proposition 2)</li>
+        <li>Convex in $\hat c$, which allows for stochastic gradient descent (proposition 3)</li>
+        <li>Subgradient of SPO+ loss: $2(\omega^*(c)-\omega^*(2\hat c-c))\in\partial\mathcal{l}_{SPO+}(\hat c,c)$.</li>
+    </div>
+        <div class="slide-number">3/8</div>
+    </div>
+
+    <!-- Slide 4: Learned Courses and Skills (3) -->
+    <div class="slide" id="slide4">
+        <div class="header">Yao's Presentation on SPO</div>
+        <div class="slide-content">
+            <h1>Elaboration of Theorem 1 (1/4)</h1>
+        <h2>Theorem 1 <i>Fisher Consistency of SPO+</i></h2>
+        <p>Suppose the following assumptions hold, SPO+ loss is Fisher consistent w.r.t SPO loss, which, in definition, means that \[\arg\min_fE_{(x,c)\sim\mathcal{D}}[\mathcal{l}_{SPO+}(f(x),c)],\] the minimizer of the SPO+ Bayes Risk, also minimizes the SPO Bayes Risk. Any minimizer of the SPO+ risk is almost surely equal to $E[c|x]$.</p>
+        <ul>
+            <p>1. $W^*(E[c|x])$ is a singleton almost surely.</p>
+            <p>2. The distribution of $c|x$ is centrally symmetric about its mean $E[c|x]$ for all $x\in \mathcal{X}$.</p>
+            <p>3. The distribution of $c|x$ is continuous on all of $R^d$ for all $x\in \mathcal{X}$.</p>
+            <p>4. The interior of the feasible region $S$ is nonempty.</p>
+        </ul>
+        <li>Those assumptions are needed only to show that $E[c|x]$ is a minimizer of the SPO risk.</li>
+        <li>As long as the minimizer for the Bayes Risk of a loss function is almost surely equal to $E[c|x]$, such as LS, the loss function is Fisher consistent. </li>
+        <li>Any convex combinations of LS and SPO+ loss functions are Fisher consistent.</li>
+        </div>
+        <div class="slide-number">4/8</div>
+    </div>
+
+    <!-- Slide 5: Research Experiences (1) -->
+    <div class="slide" id="slide5">
+        <div class="header">Yao's Presentation on SPO</div>
+        <div class="slide-content">
+            <h1>Elaboration of Theorem 1 (2/4)</h1>
+        <h2>Proof of Theorem - Overall Paradigm</h2>
+        <p>Defined on the distribution $\mathcal{D}$ only over $c$, the SPO and SPO+ risks are respectively</p>
+        \[
+        R_{SPO}(\hat c):=E_c[\mathcal{l}_{SPO}(\hat c,c)] \text{ and }R_{SPO+}(\hat c):=E_c[\mathcal{l}_{SPO+}(\hat c,c)].
+        \]
+        <ul>
+        <li>First prove that the corresponding solutions for the minimizer $\hat c$ of $R_{SPO}(\cdot)$ are also optimial solutions for the optimization problem $P(E_c[c])$. 
+            <b>(Vice versa)</b> if $\omega^*(E_c[c])$ is an optimal solution, then $E_c[c]$ is the minimizer of $R_{SPO}(\cdot)$. <u>(Proposition 5)</u></li>
+        <li>Then prove that $E_c[c]$ suffices to minimize $R_{SPO+}(\cdot)$ and is a <b>unique</b> minimizer. <u>(Proposition 6)</u></li>
+        <li>Finally, defining the risks on the distribution $\mathcal{D}$ over $(x,c)$, since
+            <ul>
+            <li>SPO+ Risk $=E_x[R_{SPO+}(\cdot)|x]$, any minimizer of SPO+ Risk is equal to the function $x\rightarrow E_c[c|x]$ almost surely,</li>
+            <li>and that any function that is equal to $x\rightarrow E_c[c|x]$ almost surely is a minimizer of SPO risk $=E_x[R_{SPO}(\cdot)|x]$,</li>
+            </ul>
+            then any minimizer of SPO+ loss also minimizes SPO loss, which is the Fisher consistency.
+        </li>
+        </ul>
+        </div>
+        <div class="slide-number">5/8</div>
+    </div>
+
+    <!-- Slide 6: Research Experiences (2) -->
+    <div class="slide" id="slide6">
+        <div class="header">Yao's Presentation on SPO</div>
+        <div class="slide-content">
+            <h1>Elaboration of Theorem 1 (3/4)</h1>
+        <h2>Proof of Theorem - Proposition 5</h2>
+        <li>$c^*$ is a minimizer of $R_{SPO}(\cdot)$ $\Rightarrow$ $\omega^*(c^*)\in W^*(E_c[c])$</li>
+        <p>Let $\bar\omega\in W^*(E_c[c])$ and choose $\tilde c$ such that $W^*(\tilde c)=\{\bar\omega\}$, then </p>
+        \[
+            \begin{aligned}
+                & R_{SPO}(c^*) \leq R_{SPO}(\tilde c) \Rightarrow 0\leq R_{SPO}(\tilde c)-R_{SPO}(c^*) = E_c[\max_{\omega\in W^*(\tilde c)}\{c^\top\omega\}] - E_c[\max_{\omega\in W^*(c^*)}\{c^\top\omega\}]\\
+                &=E_c[c^\top\bar\omega] - E_c[\max_{\omega\in W^*(c^*)}\{c^\top\omega\}] = E_c[c]^\top\bar\omega - E_c[\max_{\omega\in W^*(c^*)}\{c^\top\omega\}]\leq E_c[c]^\top\bar\omega - \max_{\omega\in W^*(c^*)}\{E_c[c]^\top\omega\}\\
+                &\Rightarrow \max_{\omega\in W^*(c^*)}\{E_c[c]^\top\omega\} \leq  E_c[c]^\top\bar\omega\\
+            \end{aligned}
+        \]
+        <li>$W^*(c^*)=\{\omega^*(c^*)\}$ is a singleton $\Rightarrow$ $c^*$ is a minimizer of $R_{SPO}(\cdot)$</li>
+        <p>Let $c^{**}$ be an arbitrary minimizer of $R_{SPO}(\cdot)$, then</p>
+        \[
+            \begin{aligned}
+            R_{SPO}(c^*)-R_{SPO}(c^{**}) &= E_c[\max_{\omega\in W^*(c^*)}\{c^\top\omega\}] - E_c[\max_{\omega\in W^*(c^{**})}\{c^\top\omega\}] = E_c[c]^\top\omega^*(c^*)-E_c[\max_{\omega\in W^*(c^{**})}\{c^\top\omega\}]\\
+            & = z^*(E_c[c]) - E_c[\max_{\omega\in W^*(c^{**})}\{c^\top\omega\}] \leq z^*(E_c[c]) - \max_{\omega\in W^*(c^{**})}\{E_c[c]^\top\omega\} \leq 0  \\
+            \end{aligned}
+        \]
+        </div>
+        <div class="slide-number">6/8</div>
+    </div>
+
+    <!-- Slide 7: Paper Description (1) -->
+    <div class="slide" id="slide7">
+        <div class="header">Yao's Presentation on SPO</div>
+        <div class="slide-content">
+            <h1>Elaboration of Theorem 1 (4/4)</h1>
+        <h2>Proof of Theorem - Proposition 6</h2>
+        <p>To prove $R_{SPO+}(E_c[c])$ is the minimum risk, consider a vector $\Delta$, let $\bar c = E_c[c]$,</p>
+        \[
+            \begin{aligned}
+            R_{SPO+}(\bar c+\Delta) - R_{SPO+}(\bar c) & = E_c[\xi_S(c-2\bar c-2\Delta) + 2(\bar c+\Delta)^\top\omega^*(c) - z^*(c)] \\
+            & - E_c[\xi_S(c-2\bar c) + 2(\bar c)^\top\omega^*(c) - z^*(c)] \\
+            & = E_c[\xi_S(c-2\bar c - 2\Delta)] - E_c[\xi_S(c-2\bar c)] + E_c[2\Delta^\top\omega^*(c)] \\
+            & = E_c[(c-2\bar c- 2\Delta)^\top\omega^*(2\bar c+2\Delta-c)] - E_c[(c-2\bar c)^\top\omega^*(2\bar c-c)] + E_c[2\Delta^\top\omega^*(c)]\\
+            & = E_c[(c-2\bar c- 2\Delta)^\top\omega^*(2\bar c+2\Delta-c)] - E_c[(c-2\bar c -2\Delta)^\top\omega^*(2\bar c -c)]\\
+            &\text{  (Due to assumption 2, where the distribution of }c|x \text{ is symmetric about }\bar c)\\
+            & = E_c[(c-2\bar c -2\Delta)^\top(\omega^*(2\bar c+2\Delta-c)-\omega^*(2\bar c-c))]\\
+            \end{aligned}
+        \]
+        <p>Since $(c-2\bar c -2\Delta)^\top(\omega^*(2\bar c+2\Delta-c)-\omega^*(2\bar c-c))$ is a nonnegative R.V., and $P(\omega^*(2\bar c-2\Delta-c)\neq\omega^*(2\bar c-c))>0$,</p>
+        \[
+        R_{SPO+}(\bar c+\Delta) - R_{SPO+}(\bar c) = E_c[(c-2\bar c -2\Delta)^\top(\omega^*(2\bar c+2\Delta-c)-\omega^*(2\bar c-c))] > 0.
+        \]
+            </div>
+        <div class="slide-number">7/8</div>
+    </div>
+
+    <!-- Slide 10: Conclusion -->
+    <div class="slide" id="slide8">
+        <div class="header">Yao's Presentation on SPO</div>
+        <div class="slide-content">
+            <div style="display: flex; justify-content: center; align-items: center; height: 70vh; margin: 0;">
+                <h1 style="font-size: 2.5em; font-weight: bold; text-align: center;">Thank You!</h1>
+            </div>
+        </div>
+        <div class="slide-number">8/8</div>
+    </div>
+    <!-- Navigation Buttons -->
+    <div class="navigation">
+        <button class="nav-btn" onclick="prevSlide()">Previous</button>
+        <button class="nav-btn" onclick="nextSlide()">Next</button>
+    </div>
+
+    <!-- PDF Viewer Modal -->
+    <div id="pdfModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 1000;">
+        <div style="position: relative; width: 80%; height: 80%; margin: 5% auto; background-color: white; padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+            <button onclick="closePDF()" style="position: absolute; top: 10px; right: 10px; padding: 5px 10px; background-color: #003366; color: white; border: none; cursor: pointer;">Close</button>
+            <iframe id="pdfViewer" style="width: 100%; height: 90%; border: none; margin-top: 40px;"></iframe>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 8;
+
+        function showSlide(slideNumber) {
+            // Hide all slides
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            // Show current slide
+            document.getElementById('slide' + slideNumber).classList.add('active');
+            
+            // Update current slide number
+            currentSlide = slideNumber;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        function openPDF(pdfPath) {
+            document.getElementById('pdfViewer').src = pdfPath;
+            document.getElementById('pdfModal').style.display = 'block';
+            return false; // Prevent default link behavior
+        }
+
+        function closePDF() {
+            document.getElementById('pdfModal').style.display = 'none';
+            document.getElementById('pdfViewer').src = '';
+        }
+
+        function openJPG(imagePath) {
+            // 创建一个新的图像查看器模态框
+            const imageModal = document.createElement('div');
+            imageModal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 1000; display: flex; justify-content: center; align-items: center;';
+            
+            // 创建图像容器 - 增加尺寸以适应更大的图片，并确保与页面边缘有间距
+            const imageContainer = document.createElement('div');
+            imageContainer.style.cssText = 'position: relative; max-width: 90%; max-height: 90%; background-color: white; padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); overflow: auto; margin: 5% auto;';
+            
+            // 创建关闭按钮
+            const closeButton = document.createElement('button');
+            closeButton.textContent = 'Close';
+            closeButton.style.cssText = 'position: absolute; top: 10px; right: 10px; padding: 5px 10px; background-color: #003366; color: white; border: none; cursor: pointer; z-index: 1001;';
+            closeButton.onclick = function() {
+                document.body.removeChild(imageModal);
+            };
+            
+            // 创建图像元素 - 调整图像大小设置
+            const image = document.createElement('img');
+            image.src = imagePath;
+            image.style.cssText = 'max-width: 100%; max-height: calc(100vh - 120px); display: block; margin: 30px auto 10px; cursor: move;';
+            
+            // 添加拖拽功能
+            let isDragging = false;
+            let startX, startY, translateX = 0, translateY = 0, lastTranslateX = 0, lastTranslateY = 0;
+            let scale = 1;
+            
+            image.onmousedown = function(e) {
+                isDragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                e.preventDefault();
+            };
+            
+            document.onmousemove = function(e) {
+                if (!isDragging) return;
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                translateX = lastTranslateX + dx;
+                translateY = lastTranslateY + dy;
+                image.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+            };
+            
+            document.onmouseup = function() {
+                if (isDragging) {
+                    lastTranslateX = translateX;
+                    lastTranslateY = translateY;
+                    isDragging = false;
+                }
+            };
+            
+            // 添加鼠标滚轮缩放功能
+            imageContainer.onwheel = function(e) {
+                e.preventDefault();
+                const delta = Math.sign(e.deltaY);
+                // 缩小
+                if (delta > 0 && scale > 0.2) {
+                    scale -= 0.1;
+                }
+                // 放大
+                else if (delta < 0) {
+                    scale += 0.1;
+                }
+                image.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+            };
+            
+            // 添加缩放控制按钮
+            const zoomControls = document.createElement('div');
+            zoomControls.style.cssText = 'position: absolute; bottom: 20px; right: 20px; display: flex; gap: 10px;';
+            
+            const zoomInBtn = document.createElement('button');
+            zoomInBtn.textContent = 'Zoom In';
+            zoomInBtn.style.cssText = 'padding: 5px 10px; background-color: #003366; color: white; border: none; cursor: pointer;';
+            
+            const zoomOutBtn = document.createElement('button');
+            zoomOutBtn.textContent = 'Zoom Out';
+            zoomOutBtn.style.cssText = 'padding: 5px 10px; background-color: #003366; color: white; border: none; cursor: pointer;';
+            
+            const resetBtn = document.createElement('button');
+            resetBtn.textContent = 'Reset';
+            resetBtn.style.cssText = 'padding: 5px 10px; background-color: #003366; color: white; border: none; cursor: pointer;';
+            
+            zoomInBtn.onclick = function() {
+                scale += 0.1;
+                image.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+            };
+            
+            zoomOutBtn.onclick = function() {
+                if (scale > 0.2) {
+                    scale -= 0.1;
+                    image.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+                }
+            };
+            
+            resetBtn.onclick = function() {
+                scale = 1;
+                translateX = 0;
+                translateY = 0;
+                lastTranslateX = 0;
+                lastTranslateY = 0;
+                image.style.transform = 'translate(0px, 0px) scale(1)';
+            };
+            
+            zoomControls.appendChild(zoomInBtn);
+            zoomControls.appendChild(zoomOutBtn);
+            zoomControls.appendChild(resetBtn);
+            
+            // 组装模态框
+            imageContainer.appendChild(closeButton);
+            imageContainer.appendChild(image);
+            imageContainer.appendChild(zoomControls);
+            imageModal.appendChild(imageContainer);
+            document.body.appendChild(imageModal);
+            
+            return false; // 防止默认链接行为
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight') {
+                nextSlide();
+            } else if (event.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+    </script>
+</body>
+</html>
+
